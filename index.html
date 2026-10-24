@@ -1263,7 +1263,7 @@
             <section class="page" id="page6">
                 <img src="alamat.png" class="p6-asset-top p6-anim p6-anim-top p6-delay-1" alt="Aset Atas">
 
-                <a href="https://maps.app.goo.gl/rVddxVUVDKyKrrJb8" target="_blank" class="p6-maps-link p6-anim p6-anim-scale p6-delay-2">
+                <a href="https://maps.app.goo.gl/vhcbv7fuAreEuboP9?g_st=ic" target="_blank" class="p6-maps-link p6-anim p6-anim-scale p6-delay-2">
                     <img src="maps.png" alt="Lihat Lokasi">
                 </a>
             </section>
@@ -1473,6 +1473,28 @@
         const musicBtn = document.getElementById('music-toggle-btn');
         const sideControls = document.getElementById('side-controls');
         
+        // HENTIKAN MUSIK KETIKA KELUAR CHROME / PENCET HOME / PINDAH TAB
+        function hentikanMusikOtamatis() {
+            if (audio && !audio.paused) {
+                audio.pause();
+                if (musicBtn) {
+                    musicBtn.classList.remove('music-rotating');
+                    const iconSvg = document.getElementById('music-icon-svg');
+                    if (iconSvg) iconSvg.innerHTML = `<path d="M4.27 3L3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-1.73L19.73 21 21 19.73 4.27 3zM14 7h4V3h-6v5.18l2 2z"/>`;
+                }
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                hentikanMusikOtamatis();
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            hentikanMusikOtamatis();
+        });
+
         function bukaUndangan() {
             const cover = document.getElementById('main-cover');
             if (!cover || !content) return;
